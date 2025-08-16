@@ -1,0 +1,12 @@
+[package]
+name = "osd-rs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.98"
+dbus = { version = "0.9.7", features = ["vendored"] }
+notify = "8.2.0"
+notify-rust = "4.11.7"
+serde = { version = "1.0.219", features = ["derive"] }
+toml = "0.9.5"
