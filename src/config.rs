@@ -18,8 +18,7 @@ pub enum Watcher {
 
 #[allow(dead_code)]
 #[derive(Deserialize, Serialize, Clone)]
-pub struct FileConfig {
-    pub path: String,
+pub struct CommonConfig {
     #[serde(default = "interval_default")]
     pub interval: u64,
     pub tag: String,
@@ -33,17 +32,18 @@ pub struct FileConfig {
 
 #[allow(dead_code)]
 #[derive(Deserialize, Serialize, Clone)]
+pub struct FileConfig {
+    pub path: String,
+    #[serde(flatten)]
+    pub common: CommonConfig,
+}
+
+#[allow(dead_code)]
+#[derive(Deserialize, Serialize, Clone)]
 pub struct PollConfig {
     pub command: String,
-    #[serde(default = "interval_default")]
-    pub interval: u64,
-    pub tag: String,
-    #[serde(default = "max_default")]
-    pub max: i32,
-    #[serde(default)]
-    pub min: i32,
-    #[serde(default)]
-    pub display_with: DisplayMethod,
+    #[serde(flatten)]
+    pub common: CommonConfig,
 }
 
 fn interval_default() -> u64 {

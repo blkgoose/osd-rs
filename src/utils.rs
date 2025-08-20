@@ -2,14 +2,15 @@ use std::sync::mpsc::Sender;
 use std::thread;
 use std::time::Duration;
 
-use crate::{command::Command, config::DisplayMethod};
+use crate::{
+    command::Command,
+    config::{CommonConfig, DisplayMethod},
+};
 
 pub fn common_watcher(
     get_value: impl Fn() -> i32,
-    tag: String,
+    config: &CommonConfig,
     tx: Sender<(Command, DisplayMethod)>,
-    interval: u64,
-    display_with: DisplayMethod,
 ) {
     let mut previous = get_value();
 
@@ -17,11 +18,11 @@ pub fn common_watcher(
         let current = get_value();
 
         if current != previous {
-            let command = Command::new(tag.clone(), current);
+            let command = Command::new(config.tag.clone(), current);
 
             previous = current.clone();
-            tx.send((command, display_with)).ok();
+            tx.send((command, config.display_with)).ok();
         }
-        thread::sleep(Duration::from_millis(interval));
+        thread::sleep(Duration::from_millis(config.interval));
     }
 }
