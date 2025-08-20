@@ -8,3 +8,8 @@ tag = "brightness"
 source = "poll"
 command = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d ':' -f2 | xargs | tr -d '\n' | tr -d '.'"
 tag = "volume"
+
+[[watcher]]
+source = "poll"
+command = "wpctl get-volume $(wpctl status | grep 'Streams' -A 10 | grep 'spotify' | cut -d'.' -f1) | cut -d ':' -f2 | xargs | tr -d '\n' | tr -d '.'"
+tag = "volume:spotify"
