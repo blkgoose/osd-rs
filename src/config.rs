@@ -28,6 +28,8 @@ pub struct CommonConfig {
     pub min: i32,
     #[serde(default)]
     pub display_with: DisplayMethod,
+    #[serde(default)]
+    pub debug: bool,
 }
 
 #[allow(dead_code)]

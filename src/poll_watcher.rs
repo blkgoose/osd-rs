@@ -21,8 +21,14 @@ pub fn watch(config: PollConfig, tx: Sender<(Command, DisplayMethod)>) {
                     .expect(&format!("Failed to execute command: {}", command));
 
                 let stdout = String::from_utf8(output.stdout).unwrap_or_default();
+                if config.common.debug {
+                    println!("Executing command: {}, Output: {}", command, stdout);
+                }
 
                 let parsed_value = stdout.parse::<i32>().unwrap_or_default() as f32;
+                if config.common.debug {
+                    println!("Parsed value: {}", parsed_value);
+                }
 
                 (parsed_value / max * 100.0) as i32
             },
