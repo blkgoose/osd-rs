@@ -2,9 +2,9 @@
 source = "file"
 path = "/sys/class/backlight/intel_backlight/brightness"
 max = 19393
-kind = "brightness"
+tag = "brightness"
 
 [[watcher]]
 source = "poll"
 command = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d ':' -f2 | xargs | tr -d '\n' | tr -d '.'"
-kind = "volume"
+tag = "volume"

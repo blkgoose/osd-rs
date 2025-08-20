@@ -22,7 +22,7 @@ pub fn watch(config: FileConfig, tx: Sender<(Command, DisplayMethod)>) {
 
                 (parsed_value / max * 100.0) as i32
             },
-            &config.kind,
+            config.tag,
             tx,
             config.interval,
             config.display_with,

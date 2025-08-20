@@ -6,7 +6,7 @@ use crate::{command::Command, config::DisplayMethod};
 
 pub fn common_watcher(
     get_value: impl Fn() -> i32,
-    kind: &crate::config::Kind,
+    tag: String,
     tx: Sender<(Command, DisplayMethod)>,
     interval: u64,
     display_with: DisplayMethod,
@@ -17,11 +17,7 @@ pub fn common_watcher(
         let current = get_value();
 
         if current != previous {
-            let command = if current > previous {
-                Command::up(kind, current)
-            } else {
-                Command::down(kind, current)
-            };
+            let command = Command::new(tag.clone(), current);
 
             previous = current.clone();
             tx.send((command, display_with)).ok();

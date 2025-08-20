@@ -43,22 +43,12 @@ fn main() {
     for (command, display_method) in rx {
         match display_method {
             NotifySend => {
-                let mut notification = match command {
-                    Command::BrightnessUp(val) | Command::BrightnessDown(val) => {
-                        Notification::new()
-                            .appname("brightness")
-                            .summary(&format!("brightness: {val}"))
-                            .hint(Hint::CustomInt("value".to_string(), val))
-                            .hint(Hint::Custom("osd-rs".to_string(), "brightness".to_string()))
-                            .finalize()
-                    }
-                    Command::VolumeUp(val) | Command::VolumeDown(val) => Notification::new()
-                        .appname("volume")
-                        .summary(&format!("volume: {val}"))
-                        .hint(Hint::CustomInt("value".to_string(), val))
-                        .hint(Hint::Custom("osd-rs".to_string(), "volume".to_string()))
-                        .finalize(),
-                };
+                let mut notification = Notification::new()
+                    .appname(&format!("osd:{}", command.tag))
+                    .summary(&command.value.to_string())
+                    .hint(Hint::Custom("tag".to_string(), command.tag))
+                    .hint(Hint::CustomInt("value".to_string(), command.value))
+                    .finalize();
 
                 match handle {
                     Some(ref mut n) => {
