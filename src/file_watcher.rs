@@ -12,7 +12,7 @@ pub fn watch(config: FileConfig, tx: Sender<(Command, DisplayMethod)>) {
         common_watcher(
             || {
                 let path: &str = &config.path;
-                let max = config.max as f32;
+                let max = config.common.max as f32;
                 let content = std::fs::read_to_string(path)
                     .unwrap_or_default()
                     .trim()
@@ -22,10 +22,8 @@ pub fn watch(config: FileConfig, tx: Sender<(Command, DisplayMethod)>) {
 
                 (parsed_value / max * 100.0) as i32
             },
-            config.tag,
+            &config.common,
             tx,
-            config.interval,
-            config.display_with,
         )
     });
 }
