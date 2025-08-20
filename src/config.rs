@@ -22,7 +22,7 @@ pub struct FileConfig {
     pub path: String,
     #[serde(default = "interval_default")]
     pub interval: u64,
-    pub kind: Kind,
+    pub tag: String,
     #[serde(default = "max_default")]
     pub max: i32,
     #[serde(default)]
@@ -37,7 +37,7 @@ pub struct PollConfig {
     pub command: String,
     #[serde(default = "interval_default")]
     pub interval: u64,
-    pub kind: Kind,
+    pub tag: String,
     #[serde(default = "max_default")]
     pub max: i32,
     #[serde(default)]
@@ -52,13 +52,6 @@ fn interval_default() -> u64 {
 
 fn max_default() -> i32 {
     100
-}
-
-#[derive(Deserialize, Serialize, Clone)]
-#[serde(rename_all = "snake_case")]
-pub enum Kind {
-    Brightness,
-    Volume,
 }
 
 #[derive(Deserialize, Serialize, Clone, Copy, Default)]

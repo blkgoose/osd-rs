@@ -12,6 +12,7 @@ pub fn watch(config: PollConfig, tx: Sender<(Command, DisplayMethod)>) {
         common_watcher(
             || {
                 let command: &str = &config.command;
+
                 let max = config.max as f32;
                 let output = std::process::Command::new("sh")
                     .arg("-c")
@@ -25,7 +26,7 @@ pub fn watch(config: PollConfig, tx: Sender<(Command, DisplayMethod)>) {
 
                 (parsed_value / max * 100.0) as i32
             },
-            &config.kind,
+            config.tag,
             tx,
             config.interval,
             config.display_with,

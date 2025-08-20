@@ -1,24 +1,10 @@
-use crate::config::Kind::{self, Brightness, Volume};
-
-pub enum Command {
-    BrightnessUp(i32),
-    BrightnessDown(i32),
-    VolumeUp(i32),
-    VolumeDown(i32),
+pub struct Command {
+    pub tag: String,
+    pub value: i32,
 }
 
 impl Command {
-    pub(crate) fn up(kind: &Kind, val: i32) -> Self {
-        match kind {
-            Brightness => Command::BrightnessUp(val),
-            Volume => Command::VolumeUp(val),
-        }
-    }
-
-    pub(crate) fn down(kind: &Kind, val: i32) -> Self {
-        match kind {
-            Brightness => Command::BrightnessDown(val),
-            Volume => Command::VolumeDown(val),
-        }
+    pub(crate) fn new(tag: String, value: i32) -> Self {
+        Self { tag, value }
     }
 }
