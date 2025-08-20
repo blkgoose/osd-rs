@@ -17,8 +17,14 @@ pub fn watch(config: FileConfig, tx: Sender<(Command, DisplayMethod)>) {
                     .unwrap_or_default()
                     .trim()
                     .to_owned();
+                if config.common.debug {
+                    println!("Reading file: {}, Content: {}", path, content);
+                }
 
                 let parsed_value = content.parse::<i32>().unwrap_or_default() as f32;
+                if config.common.debug {
+                    println!("Parsed value: {}", parsed_value);
+                }
 
                 (parsed_value / max * 100.0) as i32
             },

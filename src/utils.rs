@@ -16,6 +16,12 @@ pub fn common_watcher(
 
     loop {
         let current = get_value();
+        if config.debug {
+            println!(
+                "Current value: {}, Previous value: {}, Tag: {}",
+                current, previous, config.tag
+            );
+        }
 
         if current != previous {
             let command = Command::new(config.tag.clone(), current);
