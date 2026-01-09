@@ -16,7 +16,6 @@ pub enum Watcher {
     Poll(PollConfig),
 }
 
-#[allow(dead_code)]
 #[derive(Deserialize, Serialize, Clone)]
 pub struct CommonConfig {
     #[serde(default = "interval_default")]
@@ -32,7 +31,6 @@ pub struct CommonConfig {
     pub debug: bool,
 }
 
-#[allow(dead_code)]
 #[derive(Deserialize, Serialize, Clone)]
 pub struct FileConfig {
     pub path: String,
@@ -40,7 +38,6 @@ pub struct FileConfig {
     pub common: CommonConfig,
 }
 
-#[allow(dead_code)]
 #[derive(Deserialize, Serialize, Clone)]
 pub struct PollConfig {
     pub command: String,
