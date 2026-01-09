@@ -11,10 +11,8 @@ use crate::{
 
 mod command;
 mod config;
-mod file_watcher;
-mod pipe_watcher;
-mod poll_watcher;
 mod utils;
+mod watchers;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -32,13 +30,13 @@ fn main() {
     for watcher in config.watchers {
         match watcher {
             Watcher::File(file_config) => {
-                file_watcher::watch(file_config.clone(), tx.clone());
+                watchers::file_watcher::watch(file_config.clone(), tx.clone());
             }
             Watcher::Poll(poll_config) => {
-                poll_watcher::watch(poll_config.clone(), tx.clone());
+                watchers::poll_watcher::watch(poll_config.clone(), tx.clone());
             }
             Watcher::Pipe(pipe_config) => {
-                pipe_watcher::watch(pipe_config.clone(), tx.clone());
+                watchers::pipe_watcher::watch(pipe_config.clone(), tx.clone());
             }
         }
     }
