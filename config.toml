@@ -5,12 +5,18 @@ max = 19393
 tag = "brightness"
 
 [[watcher]]
-source = "poll"
-command = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d ':' -f2 | xargs | tr -d '\n' | tr -d '.'"
+source = "pipe"
+command = '''
+    stdbuf -oL pactl subscribe | grep --line-buffered "change" | while read -r line; do
+        SINK_IDX=$(echo "$line" | grep -oP 'sink #\K\d+')
+        SINK_INFO=$(pactl list sinks | grep -A 20 "Sink #$SINK_IDX" | awk '/Volume:/ {print $5; exit}')
+        echo "$SINK_INFO" | tr -d '%'
+    done
+'''
 tag = "volume"
 
-[[watcher]]
-source = "poll"
-command = "wpctl get-volume $(wpctl status | grep 'Streams' -A 10 | grep 'spotify' | cut -d'.' -f1) | cut -d ':' -f2 | xargs | tr -d '\n' | tr -d '.'"
-tag = "volume:spotify"
-debug = true
+# [[watcher]]
+# source = "poll"
+# command = "wpctl get-volume $(wpctl status | grep 'Streams' -A 10 | grep 'spotify' | cut -d'.' -f1) | cut -d ':' -f2 | xargs | tr -d '\n' | tr -d '.'"
+# tag = "volume:spotify"
+# debug = true

@@ -36,9 +36,9 @@
                 ({ name, config, ... }: {
                   options = {
                     source = lib.mkOption {
-                      type = lib.types.enum [ "file" "poll" ];
+                      type = lib.types.enum [ "file" "poll" "pipe" ];
                       description =
-                        "The source type for the watcher ('file' or 'poll').";
+                        "The source type for the watcher ('file', 'poll' or 'pipe').";
                     };
 
                     path = lib.mkOption {
@@ -113,6 +113,10 @@
                 assertion = watcher.command != null;
                 message =
                   "Watcher '${name}' is defined as 'poll' and thus requires a 'command' to be specified.";
+              }]) ++ (lib.optionals (watcher.source == "pipe") [{
+                assertion = watcher.command != null;
+                message =
+                  "Watcher '${name}' is defined as 'pipe' and thus requires a 'command' to be specified.";
               }])) config.osd.settings);
 
             systemd.user.services.osd = {

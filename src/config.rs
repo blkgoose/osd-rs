@@ -14,6 +14,7 @@ pub struct Config {
 pub enum Watcher {
     File(FileConfig),
     Poll(PollConfig),
+    Pipe(PipeConfig),
 }
 
 #[derive(Deserialize, Serialize, Clone)]
@@ -40,6 +41,13 @@ pub struct FileConfig {
 
 #[derive(Deserialize, Serialize, Clone)]
 pub struct PollConfig {
+    pub command: String,
+    #[serde(flatten)]
+    pub common: CommonConfig,
+}
+
+#[derive(Deserialize, Serialize, Clone)]
+pub struct PipeConfig {
     pub command: String,
     #[serde(flatten)]
     pub common: CommonConfig,

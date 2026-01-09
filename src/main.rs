@@ -12,6 +12,7 @@ use crate::{
 mod command;
 mod config;
 mod file_watcher;
+mod pipe_watcher;
 mod poll_watcher;
 mod utils;
 
@@ -35,6 +36,9 @@ fn main() {
             }
             Watcher::Poll(poll_config) => {
                 poll_watcher::watch(poll_config.clone(), tx.clone());
+            }
+            Watcher::Pipe(pipe_config) => {
+                pipe_watcher::watch(pipe_config.clone(), tx.clone());
             }
         }
     }
