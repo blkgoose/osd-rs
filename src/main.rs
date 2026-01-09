@@ -2,11 +2,8 @@ use notify_rust::{Hint, Notification, NotificationHandle};
 use std::{env, sync::mpsc};
 
 use crate::{
-    command::Command,
-    config::{
-        DisplayMethod::{self, NotifySend},
-        Watcher,
-    },
+    command::{CommandReceiver, CommandSender},
+    config::{DisplayMethod::NotifySend, Watcher},
 };
 
 mod command;
@@ -22,10 +19,7 @@ fn main() {
     }
 
     let config = config::Config::from_file(&args[1]).expect("Failed to load config");
-    let (tx, rx): (
-        mpsc::Sender<(Command, DisplayMethod)>,
-        mpsc::Receiver<(Command, DisplayMethod)>,
-    ) = mpsc::channel();
+    let (tx, rx): (CommandSender, CommandReceiver) = mpsc::channel();
 
     for watcher in config.watchers {
         match watcher {

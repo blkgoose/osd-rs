@@ -1,13 +1,8 @@
-use std::sync::mpsc::Sender;
 use std::thread;
 
-use crate::{
-    command::Command,
-    config::{DisplayMethod, PollConfig},
-    utils::common_watcher,
-};
+use crate::{command::CommandSender, config::PollConfig, utils::common_watcher};
 
-pub fn watch(config: PollConfig, tx: Sender<(Command, DisplayMethod)>) {
+pub fn watch(config: PollConfig, tx: CommandSender) {
     thread::spawn(move || {
         common_watcher(
             || {
@@ -18,7 +13,7 @@ pub fn watch(config: PollConfig, tx: Sender<(Command, DisplayMethod)>) {
                     .arg("-c")
                     .arg(command)
                     .output()
-                    .expect(&format!("Failed to execute command: {}", command));
+                    .unwrap_or_else(|_| panic!("Failed to execute command: {}", command));
 
                 let stdout = String::from_utf8(output.stdout).unwrap_or_default();
                 if config.common.debug {

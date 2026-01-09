@@ -1,14 +1,13 @@
-use std::sync::mpsc::Sender;
 use std::thread;
 
 use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
 
 use crate::{
-    command::Command,
-    config::{DisplayMethod, FileConfig},
+    command::{Command, CommandSender},
+    config::FileConfig,
 };
 
-pub fn watch(config: FileConfig, tx: Sender<(Command, DisplayMethod)>) {
+pub fn watch(config: FileConfig, tx: CommandSender) {
     thread::spawn(move || {
         let max = config.common.max as f32;
 

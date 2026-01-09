@@ -1,3 +1,7 @@
+use std::sync::mpsc;
+
+use crate::config::DisplayMethod;
+
 pub struct Command {
     pub tag: String,
     pub value: i32,
@@ -8,3 +12,6 @@ impl Command {
         Self { tag, value }
     }
 }
+
+pub type CommandSender = mpsc::Sender<(Command, DisplayMethod)>;
+pub type CommandReceiver = mpsc::Receiver<(Command, DisplayMethod)>;
