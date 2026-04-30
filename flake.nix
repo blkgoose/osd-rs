@@ -2,10 +2,9 @@
   description = "A Nix flake for osd-rs";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
     nix-std.url = "github:chessai/nix-std";
   };
-  outputs = { self, nixpkgs, flake-utils, nix-std }:
+  outputs = { self, nixpkgs, nix-std }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       osd_bin = pkgs.rustPlatform.buildRustPackage {
