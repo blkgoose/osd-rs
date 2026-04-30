@@ -123,6 +123,8 @@
               Unit.Description = "Runs osd-rs";
               Service.ExecStart =
                 "${osd_bin}/bin/osd-rs ${conf_file config.osd.settings}";
+              Service.Restart = "always";
+              Service.RestartSec = 5;
               Install.WantedBy = [ "graphical-session.target" ];
 
               Unit = {
