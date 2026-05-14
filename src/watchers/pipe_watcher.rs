@@ -39,7 +39,8 @@ pub fn watch(config: PipeConfig, tx: CommandSender) {
                         println!("Value changed from {:?} to {}", prev, value);
                     }
                     let command = Command::new(config.common.tag.clone(), value);
-                    tx.send((command, config.common.display_with)).ok();
+                    tx.send((command, config.common.display_with))
+                        .expect("Failed to send command");
                 }
             }
             prev = Some(value);

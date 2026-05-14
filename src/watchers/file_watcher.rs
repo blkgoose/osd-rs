@@ -29,7 +29,8 @@ pub fn watch(config: FileConfig, tx: CommandSender) {
 
                         if curr != prev {
                             let command = Command::new(config.common.tag.clone(), curr);
-                            tx.send((command, config.common.display_with)).ok();
+                            tx.send((command, config.common.display_with))
+                                .expect("Failed to send command");
                         }
                     }
                 }

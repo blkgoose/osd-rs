@@ -22,7 +22,8 @@ pub fn common_watcher(get_value: impl Fn() -> i32, config: &CommonConfig, tx: Co
             let command = Command::new(config.tag.clone(), current);
 
             previous = current;
-            tx.send((command, config.display_with)).ok();
+            tx.send((command, config.display_with))
+                .expect("Failed to send command");
         }
         thread::sleep(Duration::from_millis(config.interval));
     }
